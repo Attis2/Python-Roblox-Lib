@@ -44,8 +44,10 @@ class RobloxAPI:
             createTime=user_data['createTime'],
             _id=user_data['id'],
             name=user_data['name'],
+            displayName=user_data['displayName'],
             about=user_data['about'],
             locale=user_data['locale'],
+            premium=user_data['premium'],
             idVerified=user_data['idVerified'],
             socialNetworkProfiles=user_data['socialNetworkProfiles']
         )
