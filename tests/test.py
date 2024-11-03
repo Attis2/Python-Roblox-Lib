@@ -9,8 +9,9 @@ api_key = os.getenv("ROBLOX_API_KEY")
 
 roblox_api = RobloxAPI(client_id, client_secret, api_key)
 
-# Test here
+# Tests
 try:
-    print(roblox_api.get_asset(12268509034))
-except:
-    pass
+    user = roblox_api.get_user(1515484000, True)
+    print(user)
+except Exception as e:
+    raise e

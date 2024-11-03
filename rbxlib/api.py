@@ -1,5 +1,5 @@
 import requests
-from .core import RobloxError
+from .core import RobloxError, RobloxUser
 
 class RobloxAPI:
     BASE_URL = "https://apis.roblox.com"
@@ -33,10 +33,22 @@ class RobloxAPI:
             raise RobloxError(f"Error: {response.status_code} - {response.text}")
         return response.json()
 
-    def get_user(self, user_id: int | str):
+    def get_user(self, user_id: int | str, toObj: bool = False) -> RobloxUser | dict:
         """Get user data by ID."""
         endpoint = f"cloud/v2/users/{user_id}"
-        return self.make_request(endpoint)
+        user_data = self.make_request(endpoint)
+        if not toObj:
+            return user_data
+        return RobloxUser(
+            path=user_data['path'],
+            createTime=user_data['createTime'],
+            _id=user_data['id'],
+            name=user_data['name'],
+            about=user_data['about'],
+            locale=user_data['locale'],
+            idVerified=user_data['idVerified'],
+            socialNetworkProfiles=user_data['socialNetworkProfiles']
+        )
     
     def get_group(self, group_id: int | str):
         """Get group info by ID."""
@@ -45,5 +57,6 @@ class RobloxAPI:
     
     def get_asset(self, asset_id: int | str):
         """Get asset info by ID."""
-        endpoint = f"cloud/v2/.../{asset_id}"
+        # To fix
+        endpoint = f"assets/v1/assets/{asset_id}"
         return self.make_request(endpoint)

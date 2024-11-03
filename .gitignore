@@ -9,3 +9,5 @@ venv/
 .env
 
 # Ignore anything else here
+build/
+dist/
