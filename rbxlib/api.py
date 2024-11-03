@@ -33,7 +33,8 @@ class RobloxAPI:
             raise RobloxError(f"Error: {response.status_code} - {response.text}")
         return response.json()
 
-    def get_user(self, user_id: int | str, toObj: bool = False) -> RobloxUser | dict:
+    def get_user(self, user_id: int | str,
+                toObj: bool = False) -> RobloxUser | dict:
         """Get user data by ID."""
         endpoint = f"cloud/v2/users/{user_id}"
         user_data = self.make_request(endpoint)
@@ -66,7 +67,8 @@ class RobloxAPI:
                 socialNetworkProfiles=None
             )
 
-    def get_group(self, group_id: int | str, toObj: bool = False, ownerAsObj: bool = False) -> RobloxGroup | dict:
+    def get_group(self, group_id: int | str,
+                toObj: bool = False, ownerAsObj: bool = False) -> RobloxGroup | dict:
         """Get group info by ID."""
         endpoint = f"cloud/v2/groups/{group_id}"
         user_data = self.make_request(endpoint)
@@ -88,6 +90,5 @@ class RobloxAPI:
     
     def get_asset(self, asset_id: int | str):
         """Get asset info by ID."""
-        # To fix
         endpoint = f"assets/v1/assets/{asset_id}"
         return self.make_request(endpoint)
