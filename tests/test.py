@@ -11,7 +11,6 @@ roblox_api = RobloxAPI(client_id, client_secret, api_key)
 
 # Tests
 try:
-    user = roblox_api.get_user(1515484000, True)
-    print(user)
+    pass
 except Exception as e:
     raise e

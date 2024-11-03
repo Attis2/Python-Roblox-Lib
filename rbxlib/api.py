@@ -1,5 +1,5 @@
 import requests
-from .core import RobloxError, RobloxUser
+from .core import RobloxError, RobloxUser, RobloxGroup
 
 class RobloxAPI:
     BASE_URL = "https://apis.roblox.com"
@@ -39,23 +39,52 @@ class RobloxAPI:
         user_data = self.make_request(endpoint)
         if not toObj:
             return user_data
-        return RobloxUser(
-            path=user_data['path'],
-            createTime=user_data['createTime'],
-            _id=user_data['id'],
-            name=user_data['name'],
-            displayName=user_data['displayName'],
-            about=user_data['about'],
-            locale=user_data['locale'],
-            premium=user_data['premium'],
-            idVerified=user_data['idVerified'],
-            socialNetworkProfiles=user_data['socialNetworkProfiles']
-        )
-    
-    def get_group(self, group_id: int | str):
+        try:
+            return RobloxUser(
+                path=user_data['path'],
+                createTime=user_data['createTime'],
+                _id=user_data['id'],
+                name=user_data['name'],
+                displayName=user_data['displayName'],
+                about=user_data['about'],
+                locale=user_data['locale'],
+                premium=user_data['premium'],
+                idVerified=user_data['idVerified'],
+                socialNetworkProfiles=user_data['socialNetworkProfiles']
+            )
+        except KeyError:
+            return RobloxUser(
+                path=user_data['path'],
+                createTime=user_data['createTime'],
+                _id=user_data['id'],
+                name=user_data['name'],
+                displayName=user_data['displayName'],
+                about=user_data['about'],
+                locale=user_data['locale'],
+                premium=user_data['premium'],
+                idVerified=user_data['idVerified'],
+                socialNetworkProfiles=None
+            )
+
+    def get_group(self, group_id: int | str, toObj: bool = False, ownerAsObj: bool = False) -> RobloxGroup | dict:
         """Get group info by ID."""
         endpoint = f"cloud/v2/groups/{group_id}"
-        return self.make_request(endpoint)
+        user_data = self.make_request(endpoint)
+        if not toObj:
+            return user_data
+        return RobloxGroup(
+            path=user_data['path'],
+            createTime=user_data['createTime'],
+            updateTime=user_data['updateTime'],
+            _id=user_data['id'],
+            displayName=user_data['displayName'],
+            description=user_data['description'],
+            owner=self.get_user(user_data['owner'][6:], ownerAsObj),
+            memberCount=user_data['memberCount'],
+            publicEntryAllowed=user_data['publicEntryAllowed'],
+            locked=user_data['locked'],
+            verified=user_data['verified']
+        )
     
     def get_asset(self, asset_id: int | str):
         """Get asset info by ID."""

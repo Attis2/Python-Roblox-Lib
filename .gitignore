@@ -11,3 +11,4 @@ venv/
 # Ignore anything else here
 build/
 dist/
+roblox_library.egg-info
