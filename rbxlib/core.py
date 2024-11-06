@@ -34,6 +34,9 @@ class RobloxGroup:
         self.locked = locked
         self.verified = verified
 
+class RobloxRole:
+    pass
+
 def check_environment_variables(vars: list):
     """Check if required environment variables are set."""
     for var in vars:

@@ -1,5 +1,5 @@
 import requests
-from .core import RobloxError, RobloxUser, RobloxGroup
+from .core import RobloxError, RobloxUser, RobloxGroup, RobloxRole
 
 class RobloxAPI:
     BASE_URL = "https://apis.roblox.com"
@@ -40,21 +40,7 @@ class RobloxAPI:
         user_data = self.make_request(endpoint)
         if not toObj:
             return user_data
-        try:
-            return RobloxUser(
-                path=user_data['path'],
-                createTime=user_data['createTime'],
-                _id=user_data['id'],
-                name=user_data['name'],
-                displayName=user_data['displayName'],
-                about=user_data['about'],
-                locale=user_data['locale'],
-                premium=user_data['premium'],
-                idVerified=user_data['idVerified'],
-                socialNetworkProfiles=user_data['socialNetworkProfiles']
-            )
-        except KeyError:
-            return RobloxUser(
+        user = RobloxUser(
                 path=user_data['path'],
                 createTime=user_data['createTime'],
                 _id=user_data['id'],
@@ -66,6 +52,11 @@ class RobloxAPI:
                 idVerified=user_data['idVerified'],
                 socialNetworkProfiles=None
             )
+        try:
+            user.socialNetworkProfiles = user_data['socialNetworkProfiles']
+        except KeyError:
+            pass
+        return user
 
     def get_group(self, group_id: int | str,
                 toObj: bool = False, ownerAsObj: bool = False) -> RobloxGroup | dict:
@@ -88,7 +79,14 @@ class RobloxAPI:
             verified=user_data['verified']
         )
     
-    def get_asset(self, asset_id: int | str):
+    def get_asset(self, asset_id: int | str) -> dict:
         """Get asset info by ID."""
         endpoint = f"assets/v1/assets/{asset_id}"
         return self.make_request(endpoint)
+
+    def get_roles(self, group_id: int | str) -> list[RobloxRole] | dict:
+        """Get every role info by group ID."""
+        pass
+
+    def get_user_role(self):
+        pass

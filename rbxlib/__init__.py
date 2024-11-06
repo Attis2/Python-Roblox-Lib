@@ -1,4 +1,4 @@
-# This file is to be updated and completed once the library is ready
+# This file is to be updated and completed once the library is ready.
 
 """
 from .api import RobloxAPI
@@ -10,7 +10,8 @@ __all__ = [
     'RobloxAPI',
     'RobloxError',
     'RobloxUser',
-    'RobloxGroup'
+    'RobloxGroup',
+    'RobloxRole'
 ]
 
 __version__ = '0.1.0'
